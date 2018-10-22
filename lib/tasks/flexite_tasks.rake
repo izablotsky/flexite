@@ -19,13 +19,14 @@ namespace :flexite do
   end
 
   task remove_settings: :environment do
-    puts 'Removing....'
-    Flexite::Config.transaction do
-      Flexite::Config.delete_all
-      Flexite::Entry.delete_all
-    end
-    puts 'Deleted'
-  rescue StandartError => exc
-    puts 'Smth went wrong...'
+    begin
+      puts 'Removing....'
+      Flexite::Config.transaction do
+        Flexite::Config.delete_all
+        Flexite::Entry.delete_all
+      end
+      puts 'Deleted'
+    rescue StandartError => exc
+      puts 'Smth went wrong...'
   end
 end
