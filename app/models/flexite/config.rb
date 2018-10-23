@@ -62,25 +62,16 @@ module Flexite
     end
 
     def self.t_nodes
-      roots.includes(:configs, :entry).order_by_name.map(&:t_node)
+      roots.includes(:configs, :entry).map(&:t_node)
     end
 
     def t_node
-      node = {
-        'name' => name,
-        'description' => description,
-        'class' => self.class.name
-      }
-
-      if configs.any?
-        node.merge!('configs' => configs.includes(:configs, :entry).order_by_name.map(&:t_node))
+      { 'name' => name, 'description' => description, 'class' => self.class.name }.tap do |node|
+        if configs.any?
+          node ['configs'] = configs.includes(:configs, :entry).order_by_name.map(&:t_node)
+        end
+        node['entry'] = entry.t_node if entry.present?
       end
-
-      if entry.present?
-        node.merge!('entry' => entry.t_node)
-      end
-
-      node
     end
 
     def dig(level)
