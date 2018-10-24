@@ -28,5 +28,6 @@ namespace :flexite do
       puts 'Deleted'
     rescue StandartError => exc
       puts 'Smth went wrong...'
+    end
   end
 end
