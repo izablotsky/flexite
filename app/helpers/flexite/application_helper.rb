@@ -11,10 +11,6 @@ module Flexite
       presenter
     end
 
-    def back_to_app
-      link_to "Back to #{Flexite.config.app_name}", Flexite.config.app_link, class: 'btn btn-default'
-    end
-
     def stage_select
       select_tag :stage, options_for_select(Flexite.config.stages), class: 'form-control'
     end
