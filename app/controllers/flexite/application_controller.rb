@@ -1,7 +1,7 @@
 require_dependency 'flexite/service_factory'
 
 module Flexite
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
     private
 
     def service_response(result)

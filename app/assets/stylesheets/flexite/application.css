@@ -20,10 +20,6 @@
     transform: translateX(-50%);
 }
 
-#main-container {
-    padding-top: 65px;
-}
-
 button.close {
     outline: none;
 }
