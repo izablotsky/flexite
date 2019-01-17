@@ -2,7 +2,7 @@ module Flexite
   module ApplicationHelper
     def present(object, klass = nil)
       begin
-        klass = "#{object.class}Presenter".constantize
+        klass ||= "#{object.class}Presenter".constantize
         presenter = klass.new(object, self)
       rescue => exc
         raise "#{object.class} is not presentable. #{exc.message}"
