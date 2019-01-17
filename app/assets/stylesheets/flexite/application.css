@@ -32,3 +32,9 @@ button.close {
     position: absolute;
     top: 50%;
 }
+
+#tree-container {
+    margin-top: 15px;
+    height: 500px;
+    overflow-y: auto;
+}
