@@ -26,7 +26,7 @@ namespace :flexite do
         Flexite::Entry.delete_all
       end
       puts 'Deleted'
-    rescue StandartError => exc
+    rescue StandardError => exc
       puts 'Smth went wrong...'
     end
   end

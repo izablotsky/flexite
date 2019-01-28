@@ -1,25 +1,18 @@
 module Flexite
   class Diff
     class ShowService
-      def initialize(dir_name)
-        @dir_name = dir_name
+      def initialize(stage, checksum)
+        @stage = stage
+        @checksum = checksum
       end
 
       def call
-        @data = { dir_name: @dir_name}
-        if Dir.exist?("#{Rails.root}/config/diffs/#{@dir_name}")
-          @data[:diffs] = diffs
+        @data = { stage: @stage, checksum: @checksum }
+        if (diffs = Diff.where(stage: @stage, checksum: @checksum)).present?
+          @data[:diffs] = diffs.group_by(&:change_type)
         end
 
         Flexite::ActionService::Result.new(data: @data)
-      end
-
-      private
-
-      def diffs
-        Dir["#{Rails.root}/config/diffs/#{@dir_name}/*.yml"].map do |file_name|
-          YAML.load_file(file_name)
-        end.group_by(&:type)
       end
     end
   end

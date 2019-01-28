@@ -5,6 +5,7 @@ Flexite::Engine.routes.draw do
       delete 'destroy_array' => 'entries#destroy_array_entry'
       get ':parent_id/select_type' => 'entries#select_type', as: :select_type
     end
+    post :lock, on: :member
   end
 
   resources :configs do

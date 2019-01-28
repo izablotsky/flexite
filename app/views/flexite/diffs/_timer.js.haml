@@ -2,6 +2,7 @@
   setTimeout(function() {
       $flexite.ajax({
           url: "#{diff_path}",
-          data: { dir_name: "#{dir_name}" }
+          data: { stage: "#{stage}",
+                  checksum: "#{checksum}" }
       })
   }, 2000);

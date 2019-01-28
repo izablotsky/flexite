@@ -34,7 +34,25 @@ button.close {
 }
 
 #tree-container {
-    margin-top: 15px;
+    height: 500px;
+    padding-top: 15px;
+}
+
+#tree {
+    overflow-y: auto;
+}
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
+
+.bordered {
+    padding: 10px;
+    border-style: inset;
+    margin-bottom: 10px;
+}
+
+#section-2 {
     height: 500px;
     overflow-y: auto;
 }

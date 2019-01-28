@@ -7,10 +7,6 @@
     z-index: 1;
 }
 
-#tree-container {
-    padding-top: 40px;
-}
-
 .pos-fixed {
     position: fixed;
 }

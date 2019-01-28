@@ -3,7 +3,7 @@ module Flexite
     has_many :entries, as: :parent, dependent: :destroy
 
     def value
-      entries.select([:id, :value, :type]).map(&:value)
+      entries.select(%i[id value type]).map(&:value)
     end
 
     def entry=(entry)
@@ -24,26 +24,22 @@ module Flexite
 
     def t_node
       node = super.except('value')
-
       if entries.any?
-        node.merge!('entries' => entries.order_by_value.map(&:t_node))
+        node['entries'] = entries.map(&:t_node)
       end
-
       node
     end
 
     def dig(level)
-      if level.to_sym == :entries
-        return send(level).order_by_value
-      end
+      return super if level.to_sym != :entries
 
-      super
+      send(level).order_by_value
     end
 
     private
 
     def form_entries
-      entries.select([:id, :value, :type, :updated_at])
+      entries.select(%i[id value type updated_at])
     end
 
     def cast_value

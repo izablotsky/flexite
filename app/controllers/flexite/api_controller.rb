@@ -3,8 +3,7 @@ module Flexite
     before_filter :check_token
 
     def configs
-      @nodes = Config.t_nodes
-      render json: @nodes
+      render json: Config.t_nodes
     end
 
     private
