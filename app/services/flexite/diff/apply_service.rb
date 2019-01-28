@@ -1,10 +1,8 @@
 module Flexite
   class Diff
     class ApplyService
-      def initialize(dir_name)
-        @diffs = Dir["#{Rails.root}/config/diffs/#{dir_name}/*.yml"].map do |file_name|
-          YAML.load_file(file_name)
-        end.group_by(&:type)
+      def initialize(stage, checksum)
+        @diffs = Diff.where(stage: stage, checksum: checksum).group_by(&:change_type)
       end
 
       def call
@@ -14,7 +12,7 @@ module Flexite
               next if @diffs[type].blank?
 
               @diffs[type].each do |diff|
-                send("handle_#{diff.type}", diff.path, *diff.changes)
+                send("handle_#{diff.change_type}", diff.path, *diff.hash_changes)
               end
             end
           end

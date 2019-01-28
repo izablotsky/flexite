@@ -1,7 +1,7 @@
 module Flexite
   class BoolEntry < Entry
     def value
-      self[:value].to_i == 1 ? true : false
+      self[:value].to_i == 1
     end
 
     def form

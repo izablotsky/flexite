@@ -7,7 +7,7 @@ module Flexite
 
     delegate :value, to: :entry, allow_nil: true
     belongs_to :config, touch: true
-    alias :parent :config
+    alias parent config
     alias :parent= :config=
     has_one :entry, as: :parent, dependent: :destroy
     has_many :configs, dependent: :destroy
@@ -19,14 +19,14 @@ module Flexite
 
     def tv_node
       {
-        id: id,
-        editHref: Engine.routes.url_helpers.edit_config_path(self),
-        selfHref: Engine.routes.url_helpers.config_path(self),
-        newHref: Engine.routes.url_helpers.new_config_config_path(self),
-        text: description,
-        dataHref: selectable ? entry_href : configs_href,
-        nodes: nodes,
-        selectable: true,
+        id:           id,
+        editHref:     Engine.routes.url_helpers.edit_config_path(self),
+        selfHref:     Engine.routes.url_helpers.config_path(self),
+        newHref:      Engine.routes.url_helpers.new_config_config_path(self),
+        text:         description,
+        dataHref:     selectable ? entry_href : configs_href,
+        nodes:        nodes,
+        selectable:   true,
         ajaxOnSelect: selectable
       }
     end
@@ -54,19 +54,20 @@ module Flexite
     end
 
     def nodes
-      if selectable
-        return nil
-      end
+      return if selectable
 
       nodes_count > 0 ? [] : nil
     end
 
     def self.t_nodes
-      roots.includes(:configs, :entry).map(&:t_node)
+      roots.includes(:configs, :entry).order_by_name.map(&:t_node)
     end
 
     def t_node
-      { 'name' => name, 'description' => description, 'class' => self.class.name }.tap do |node|
+      ActiveSupport::OrderedHash.new.tap do |node|
+        node['name'] = name
+        node['description'] = description
+        node['class'] = self.class.name
         if configs.any?
           node ['configs'] = configs.includes(:configs, :entry).order_by_name.map(&:t_node)
         end
@@ -86,6 +87,7 @@ module Flexite
 
     def set_description
       return if description.present?
+
       self.description = name
     end
 

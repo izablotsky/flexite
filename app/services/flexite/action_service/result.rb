@@ -46,6 +46,7 @@ class Flexite::ActionService::Result
 
   def method_missing(method, *args, &block)
     return super if data.keys.exclude?(method)
+
     data[method]
   end
 

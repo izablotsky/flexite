@@ -8,7 +8,7 @@ module Flexite
     end
 
     def apply
-      result = ServiceFactory.instance.get(:apply_diff, params[:dir_name]).call
+      result = ServiceFactory.instance.get(:apply_diff, params[:stage], params[:checksum]).call
 
       if result.flash.present?
         service_flash(result)
@@ -17,12 +17,8 @@ module Flexite
       service_response(result)
     end
 
-    def save_diff
-      ServiceFactory.instance.get(:save_diff, params[:stage], params[:response]).call
-    end
-
     def show
-      @result = ServiceFactory.instance.get(:show_diff, params[:dir_name]).call
+      @result = ServiceFactory.instance.get(:show_diff, params[:stage], params[:checksum]).call
     end
 
     def get

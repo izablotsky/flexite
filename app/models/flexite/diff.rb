@@ -1,11 +1,6 @@
 module Flexite
-  class Diff
-    attr_accessor :type, :path, :changes
-
-    def initialize(type, path, *changes)
-      @type = type
-      @path = path
-      @changes = *changes
-    end
+  class Diff < ActiveRecord::Base
+    serialize :hash_changes
+    serialize :path
   end
 end
