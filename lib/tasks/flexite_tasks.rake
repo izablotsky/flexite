@@ -18,6 +18,16 @@ namespace :flexite do
     end
   end
 
+  task lock_settings: :environment do
+    begin
+      puts 'Locking...'
+      Flexite::Data::Lockers::Yml.new.call
+      puts 'Locked'
+    rescue StandardError => exception
+      puts 'Smth went wrong'
+    end
+  end
+
   task remove_settings: :environment do
     begin
       puts 'Removing....'

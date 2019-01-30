@@ -77,7 +77,7 @@ module Flexite
 
     def lock
       @entry = Entry.find(params[:id])
-      if @entry.update_attribute(:locked_to_env, !@entry.locked_to_env)
+      if @entry.parent.update_column(:locked, !@entry.locked)
         flash[:success] = 'Locked to current env'
       else
         flash[:error] = 'Unfortunatly it was not locked to env'

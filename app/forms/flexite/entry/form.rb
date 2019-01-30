@@ -2,7 +2,8 @@ require_dependency 'flexite/base_form'
 
 module Flexite
   class Entry::Form < BaseForm
-    attr_accessor :id, :type, :value, :parent_id, :parent_type
+    attr_accessor :id, :type, :value, :parent_id, :parent_type, :locked
+    
     validates :type, presence: true
 
     def self.model_name

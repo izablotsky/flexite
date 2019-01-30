@@ -2,7 +2,9 @@ module Flexite
   class Entry < ActiveRecord::Base
     include WithHistory
 
-    attr_accessible :value, :locked_to_env
+    attr_accessor :locked
+
+    attr_accessible :value
     history_attributes :value
 
     belongs_to :parent, polymorphic: true, touch: true
@@ -12,12 +14,20 @@ module Flexite
 
     before_save :check_value, :cast_value
 
+    delegate :locked, to: :parent
+
     def self.form(attributes = {})
       Form.new(attributes)
     end
 
     def self.service(type)
       "entry_#{type}".to_sym
+    end
+
+    def attributes
+      super.tap do |hash|
+        hash[:locked] = locked
+      end
     end
 
     alias form_attributes attributes

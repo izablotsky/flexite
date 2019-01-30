@@ -2,7 +2,7 @@ module Flexite
   class Config < ActiveRecord::Base
     include WithHistory
 
-    attr_accessible :name, :selectable, :config_id, :description
+    attr_accessible :name, :selectable, :config_id, :description, :locked
     history_attributes :name, :config_id, :description
 
     delegate :value, to: :entry, allow_nil: true
@@ -60,7 +60,7 @@ module Flexite
     end
 
     def self.t_nodes
-      roots.includes(:configs, :entry).order_by_name.map(&:t_node)
+      roots.includes(:configs, :entry).where(locked: false).order_by_name.map(&:t_node)
     end
 
     def t_node
@@ -69,7 +69,7 @@ module Flexite
         node['description'] = description
         node['class'] = self.class.name
         if configs.any?
-          node ['configs'] = configs.includes(:configs, :entry).order_by_name.map(&:t_node)
+          node ['configs'] = configs.includes(:configs, :entry).where(locked: false).order_by_name.map(&:t_node)
         end
         node['entry'] = entry.t_node if entry.present?
       end

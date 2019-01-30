@@ -34,12 +34,12 @@ button.close {
 }
 
 #tree-container {
-    height: 500px;
     padding-top: 15px;
 }
 
 #tree {
     overflow-y: auto;
+    height: 500px;
 }
 .modal-body {
     max-height: calc(100vh - 210px);
