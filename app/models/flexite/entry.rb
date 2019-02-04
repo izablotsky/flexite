@@ -4,8 +4,8 @@ module Flexite
 
     attr_accessor :locked
 
-    attr_accessible :value
-    history_attributes :value
+    attr_accessible :value, :to_delete
+    history_attributes :value, :updated_by
 
     belongs_to :parent, polymorphic: true, touch: true
     has_many :histories, as: :entity, dependent: :destroy
@@ -33,7 +33,7 @@ module Flexite
     alias form_attributes attributes
 
     def t_node
-      ActiveSupport::OrderedHash.new.tap do |node|
+      Hash.new.tap do |node|
         node['value'] = self[:value]
         node['type']  = I18n.t("models.#{self.class.name.demodulize.underscore}")
         node['class'] = self.class.name

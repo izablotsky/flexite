@@ -11,6 +11,8 @@
         - differences.each do |diff|
           - present diff do |diff_presenter|
             %li
+              = check_box_tag 'ids[]', diff.id
               %pre
-                = diff_presenter.path
+                - if type == '~'
+                  = diff_presenter.path
                 = diff_presenter.changes

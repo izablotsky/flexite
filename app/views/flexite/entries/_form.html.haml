@@ -11,4 +11,3 @@
     = link_to 'Delete', entry_path(f.object, type: @entry_form.type), method: :delete, remote: true, class: 'btn btn-danger'
   - if @entry_form.with_history?
     = link_to 'History', entity_histories_path(@entry_form.id, @entry_form.history_type), remote: true, class: 'btn btn-default'
-  = link_to(@entry_form.locked ? 'Unlock' : 'Lock', lock_entry_path(@entry_form.id), remote: true, method: :post, class: 'btn btn-default')

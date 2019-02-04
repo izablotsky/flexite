@@ -1,12 +1,13 @@
 
 
--if @result.flash.present?
-  $flexite('#progress-loader').modal('hide');
-  = render 'flexite/shared/show_flash', flash: @result.flash
--elsif @result.respond_to?(:diffs)
-  $flexite("#modal-body").html("#{j render 'diffs', diffs: @result.diffs}");
-  $flexite("#submit-btn").html("#{j link_to 'Apply', apply_diff_path(stage: @result.stage, checksum: @result.checksum), remote: true, method: :post, class: 'btn btn-success' }");
-  $flexite("#modal").modal("show");
-  $flexite('#progress-loader').modal('hide');
--else
-  $flexite('#diff-timer').html("#{j render 'timer', stage: @result.stage, checksum: @result.checksum}");
+- if flash.present?
+    $flexite("#progress-loader").modal("hide");
+    $flexite('body').removeClass('modal-open');
+    $flexite('.modal-backdrop').remove();
+    = render 'flexite/shared/show_flash', flash: flash
+- elsif @result.respond_to?(:diffs)
+    $flexite('#modal-body').html("#{ j render 'flexite/diffs/diffs', diffs: @result.diffs }");
+    $flexite('#progress-loader').modal('hide');
+    $flexite("#modal").modal("show");
+- else
+    $flexite('#diff-timer').html("#{ j render 'timer', stage: @result.stage, checksum: @result.checksum }");

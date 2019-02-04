@@ -17,7 +17,7 @@ module Flexite
       @diff_depth_separator = ' -> '
       @diff_approach = :sync
       @stages = []
-      @cache_matcher = -> (pattern) { Regexp.new(pattern) }
+      @cache_matcher = ->(pattern) { Regexp.new(pattern) }
     end
 
     def cache_store=(*args)
