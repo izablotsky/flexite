@@ -1,4 +1,6 @@
 $flexite("#modal").modal("hide");
+$flexite('body').removeClass('modal-open');
+$flexite('.modal-backdrop').remove();
 = render 'flexite/shared/show_flash'
 var $tree = $flexite("#tree");
 window.tree = new Tree($tree);

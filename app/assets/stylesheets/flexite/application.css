@@ -13,13 +13,6 @@
  *= require ./tree
  */
 
-#flash .alert {
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 button.close {
     outline: none;
 }
@@ -34,12 +27,12 @@ button.close {
 }
 
 #tree-container {
-    height: 500px;
     padding-top: 15px;
 }
 
 #tree {
     overflow-y: auto;
+    height: 500px;
 }
 .modal-body {
     max-height: calc(100vh - 210px);
@@ -55,4 +48,9 @@ button.close {
 #section-2 {
     height: 500px;
     overflow-y: auto;
+}
+
+li input[type=checkbox] {
+    float: left;
+    margin: 11px 0 0 -33px;
 }

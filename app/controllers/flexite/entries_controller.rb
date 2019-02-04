@@ -77,7 +77,7 @@ module Flexite
 
     def lock
       @entry = Entry.find(params[:id])
-      if @entry.update_attribute(:locked_to_env, !@entry.locked_to_env)
+      if @entry.parent.update_column(:locked, !@entry.locked)
         flash[:success] = 'Locked to current env'
       else
         flash[:error] = 'Unfortunatly it was not locked to env'
@@ -90,10 +90,10 @@ module Flexite
       params[:entry]
     end
 
-    def call_service_for(type, entry)
+    def call_service_for(type, entry, user = current_user)
       klass = entry[:type].constantize
       @entry_form = klass.form(entry)
-      ServiceFactory.instance.get(klass.service(type), @entry_form).call
+      ServiceFactory.instance.get(klass.service(type), @entry_form, user: user).call
     end
   end
 end

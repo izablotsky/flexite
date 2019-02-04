@@ -3,10 +3,6 @@
   They will automatically be included in application.css.
 */
 
-#tree-buttons div {
-    z-index: 1;
-}
-
 .pos-fixed {
     position: fixed;
 }

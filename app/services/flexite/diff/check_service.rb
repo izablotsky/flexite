@@ -2,14 +2,14 @@ module Flexite
   class Diff
     class CheckService
       def initialize(current_tree, other_tree, stage, checksum)
-        @other_tree = other_tree
+        @other_tree   = other_tree
         @current_tree = current_tree
-        @stage = stage
-        @checksum = checksum
+        @stage        = stage
+        @checksum     = checksum
       end
 
       def call
-        HashDiff.diff(@other_tree, @current_tree, array_path: true, use_lcs: false).each do |type, depth, *changes|
+        HashDiff.diff(@other_tree, @current_tree, array_path: true).each do |type, depth, *changes|
           Diff.new.tap do |diff|
             diff.stage        = @stage
             diff.checksum     = @checksum

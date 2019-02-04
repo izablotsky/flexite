@@ -31,8 +31,8 @@ module Flexite
       end
 
       def calculate_diff
-        # Delayed::Job.enqueue(ShowDiffJob.new(@other_tree, @current_tree, @stage, @checksum))
-        CheckService.new(@current_tree, @other_tree, @stage, @checksum).call
+        Delayed::Job.enqueue(ShowDiffJob.new(@other_tree, @current_tree, @stage, @checksum))
+        # CheckService.new(@current_tree, @other_tree, @stage, @checksum).call
       end
 
       def checksum

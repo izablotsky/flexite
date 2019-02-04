@@ -1,15 +1,17 @@
 .modal.fade#modal{ role: :dialog, aria: { hidden: 'true' } }
   .modal-dialog
     .modal-content
-      .modal-header
-        %button.close{ type: :button, data: { dismiss: :modal }, aria: { label: 'Close' } }
-          %span{ aria: { hidden: 'true' } }
-            &times;
-        %h4.modal-title#modal-title
-      .modal-body#modal-body
-      .modal-footer
-        %span#submit-btn
-        %button.btn.btn-secondary{ data: { dismiss: :modal } } Close
+      = form_for :differences, url: apply_diff_path, remote: true do |form|
+        .modal-header
+          %button.close{ type: :button, data: { dismiss: :modal }, aria: { label: 'Close' } }
+            %span{ aria: { hidden: 'true' } }
+              &times;
+          %h4.modal-title#modal-title
+        .modal-body#modal-body
+          //= render 'flexite/diffs/diffs', diffs: diffs, form: form
+        .modal-footer
+          = form.submit 'Apply', class: 'btn btn-success'
+          %button.btn.btn-secondary{ data: { dismiss: :modal } } Close
 :javascript
   $flexite("#modal").on("hidden.bs.modal", function () {
     $flexite("#modal #modal-title").text("");

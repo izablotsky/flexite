@@ -2,8 +2,10 @@ module Flexite
   class Entry < ActiveRecord::Base
     include WithHistory
 
-    attr_accessible :value, :locked_to_env
-    history_attributes :value
+    attr_accessor :locked
+
+    attr_accessible :value, :to_delete
+    history_attributes :value, :updated_by
 
     belongs_to :parent, polymorphic: true, touch: true
     has_many :histories, as: :entity, dependent: :destroy
@@ -11,6 +13,8 @@ module Flexite
     scope :order_by_value, -> { order(:value) }
 
     before_save :check_value, :cast_value
+
+    delegate :locked, to: :parent
 
     def self.form(attributes = {})
       Form.new(attributes)
@@ -20,10 +24,16 @@ module Flexite
       "entry_#{type}".to_sym
     end
 
+    def attributes
+      super.tap do |hash|
+        hash[:locked] = locked
+      end
+    end
+
     alias form_attributes attributes
 
     def t_node
-      ActiveSupport::OrderedHash.new.tap do |node|
+      Hash.new.tap do |node|
         node['value'] = self[:value]
         node['type']  = I18n.t("models.#{self.class.name.demodulize.underscore}")
         node['class'] = self.class.name

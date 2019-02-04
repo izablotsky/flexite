@@ -41,60 +41,50 @@ module Flexite
       define_method("#{symbol}_changes") do |changes|
         changes = changes.first
         ''.tap do |html|
-          if changes&.class == 'Flexite::Config'
+          if changes.try(:[], 'class') == 'Flexite::Config'
             html << display_configs(changes)
           elsif changes.try(:[], 'class') == 'Flexite::ArrEntry'
             html << display_entries(changes['entries'])
           end
-        end
+        end.html_safe
       end
     end
 
     private
 
-    def display_configs(changes)
-      concat content_tag(:div, class: 'row my-2') do
-        concat label_tag('Node name:')
-        concat changes[:name]
-      end
-      concat content_tag(:div, class: 'row my-2') do
-        concat label_tag('Node description:')
-        concat changes[:description]
-      end
-      if changes.respond_to(:[], 'entry')
-        concat display_entry(changes['entry'])
-      else
-        concat display_configs(changes['configs'])
+    def display_configs(changes, indent = 0)
+      content_tag(:div, style: "margin: #{10 * indent}px 0 0 #{10*indent}px;") do
+        ''.tap do |html|
+          html << content_tag(:div) do
+            concat(label_tag('Node name:'))
+            concat(changes['name'])
+          end.html_safe
+
+          html << content_tag(:div) do
+            concat(label_tag('Node description:'))
+            concat(changes['description'])
+          end.html_safe
+
+          html << content_tag(:div) do
+            if changes['entry'].present?
+              concat(label_tag('Value:'))
+              concat(display_entry(changes['entry']))
+            elsif changes['configs'].present?
+              changes['configs'].map do |config|
+                display_configs(config, indent.next)
+              end.join.html_safe
+            end
+          end.html_safe
+        end.html_safe
       end
     end
 
     def display_entry(entry)
-      entry['value']
-    end
-
-    def present_array_entry(entries)
-      entries.map { |entry| entry['value'] }
+      entry.try(:[], 'value')
     end
 
     def display_entries(entries)
       entries.map { |e| e.to_h['value'] }.join(', ')
-    end
-
-    def present_base_entry(entry)
-      content_tag(:div) do
-        concat(content_tag(:div, class: 'raw') do
-          concat(label_tag('Node name:'))
-          concat(entry['name'])
-        end)
-        concat(content_tag(:div, class: 'raw') do
-          concat(label_tag('Node description:'))
-          concat(entry['description'])
-        end)
-        concat(content_tag(:div, class: 'raw') do
-          concat(label_tag('Value:'))
-          concat(entry['entry']['value'])
-        end)
-      end
     end
   end
 end
