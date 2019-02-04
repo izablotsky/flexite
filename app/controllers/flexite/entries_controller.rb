@@ -82,6 +82,7 @@ module Flexite
       else
         flash[:error] = 'Unfortunatly it was not locked to env'
       end
+      @entry_form = @entry.class.form(@entry.form_attributes)
     end
 
     private

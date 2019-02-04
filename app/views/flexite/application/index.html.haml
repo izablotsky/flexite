@@ -2,7 +2,7 @@
   = javascript_include_tag 'flexite/application'
   = stylesheet_link_tag 'flexite/application', media: 'all'
   = csrf_meta_tags
-#flash
+.col-md-12#flash
   //= render 'flexite/shared/messages'
   = render 'flexite/shared/progress_loader'
   = render 'flexite/shared/popup'
@@ -20,9 +20,9 @@
   .row
     .col-md-4
       #tree
-    .col-md-4
+    .col-md-5
       #section-2
-    .col-md-4
+    .col-md-3
       #section-3
 #diff-timer
 

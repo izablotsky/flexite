@@ -14,7 +14,7 @@ module Flexite
 
     before_save :check_value, :cast_value
 
-    delegate :locked, to: :parent
+    delegate :locked, to: :parent, allow_nil: true
 
     def self.form(attributes = {})
       Form.new(attributes)
