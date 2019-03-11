@@ -33,7 +33,7 @@ $flexite(window).on('load', function () {
 
     $flexite("#show-diff").on("click", function () {
         $flexite('#progress-loader').modal({ backdrop: 'static', keyboard: false });
-        $flexite.get("<%= get_diff_path %>" + "?url=" + $flexite("select[id='stage']").val() + "&stage=" + $flexite("select[id='stage']").text());
+        $flexite.get("<%= Flexite::Engine.routes.url_helpers.get_diff_path %>" + "?url=" + $flexite("select[id='stage']").val() + "&stage=" + $flexite("select[id='stage']").text());
     });
 
     $flexite("#new-node-btn").on("click", function () {
@@ -44,8 +44,27 @@ $flexite(window).on('load', function () {
                 $flexite.get(node.newHref);
             })
         } else {
-            $flexite.get("<%= new_config_path %>");
+            $flexite.get("<%= Flexite::Engine.routes.url_helpers.new_config_path %>");
         }
+    });
+
+    var search = function(e) {
+        var pattern = $flexite('#input-search').val();
+        var options = {
+            ignoreCase: $flexite('#chk-ignore-case').is(':checked'),
+            exactMatch: $flexite('#chk-exact-match').is(':checked'),
+            revealResults: $flexite('#chk-reveal-results').is(':checked')
+            };
+        $tree.treeview('search', [ pattern, options ]);
+    };
+
+    $flexite('#btn-search').on('click', search);
+    $flexite('#input-search').on('keyup', search);
+
+    $flexite('#btn-clear-search').on('click', function (e) {
+          $tree.treeview('clearSearch');
+          $flexite('#input-search').val('');
+          $flexite('#search-output').html('');
     });
 });
 
@@ -53,17 +72,11 @@ function Tree(selector) {
     var self = this, tree = $flexite(selector);
 
     this.init = function () {
-        $flexite.get("<%= configs_path(format: :json) %>", function (data) {
+        $flexite.get("<%= Flexite::Engine.routes.url_helpers.configs_path(format: :json) %>", function (data) {
             tree.treeview({
                 data: data,
-                onNodeExpanded: function (event, node) {
-                    $flexite.get(node.dataHref, function (nodes) {
-                        tree.treeview(true).addNodes(nodes, node.nodeId);
-                    });
-                },
-                onNodeCollapsed: function (event, node) {
-                    tree.treeview(true).removeNodes(node.nodeId);
-                },
+                levels: 0,
+                searchResultBackColor: '#FFFF00',
                 onNodeSelected: function (event, node) {
                     if (node.ajaxOnSelect) $flexite.get(node.dataHref);
                 },
