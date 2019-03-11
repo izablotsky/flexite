@@ -2,6 +2,7 @@ require 'flexite/engine'
 require 'hashie'
 require 'hashdiff'
 require 'net/http'
+require 'deep_cloneable'
 
 module Flexite
   extend ActiveSupport::Autoload

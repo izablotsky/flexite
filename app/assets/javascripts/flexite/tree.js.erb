@@ -25,6 +25,12 @@ $flexite(window).on('load', function () {
         })
     });
 
+    $flexite("#copy-node-btn").on("click", function (){
+        $tree.treeview("getSelected").forEach(function (node){
+            $flexite.post(node.copyHref);
+        });
+    });
+
     $flexite("#show-diff").on("click", function () {
         $flexite('#progress-loader').modal({ backdrop: 'static', keyboard: false });
         $flexite.get("<%= get_diff_path %>" + "?url=" + $flexite("select[id='stage']").val() + "&stage=" + $flexite("select[id='stage']").text());

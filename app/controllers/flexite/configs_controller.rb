@@ -5,7 +5,8 @@ module Flexite
     helper ConfigsHelper
 
     def index
-      @configs = Config.tree_view(params[:config_id])
+      @configs = Flexite::Config.roots.all_configs
+
       @cache_key = "#{controller_name}/#{action_name}.#{request.format.symbol}/#{Config.roots.maximum(:updated_at)&.to_s(:number)}/#{params.fetch(:config_id, :root)}"
     end
 
@@ -52,6 +53,11 @@ module Flexite
       Flexite.reload_root_cache
       flash[:success] = 'Cache was reloaded'
       render partial: 'flexite/shared/show_flash'
+    end
+
+    def copy
+      Flexite::Config::CopyService.new(params[:id]).call
+      render nothing: true
     end
 
     private

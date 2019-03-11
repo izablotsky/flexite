@@ -9,9 +9,9 @@ module Flexite
 
     belongs_to :parent, polymorphic: true, touch: true
     has_many :histories, as: :entity, dependent: :destroy
+    has_many :entries, as: :parent, dependent: :destroy
 
     scope :order_by_value, -> { order(:value) }
-
     before_save :check_value, :cast_value
 
     delegate :locked, to: :parent, allow_nil: true
@@ -33,7 +33,7 @@ module Flexite
     alias form_attributes attributes
 
     def t_node
-      Hash.new.tap do |node|
+      {}.tap do |node|
         node['value'] = self[:value]
         node['type']  = I18n.t("models.#{self.class.name.demodulize.underscore}")
         node['class'] = self.class.name

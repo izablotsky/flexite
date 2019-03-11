@@ -12,6 +12,7 @@ Flexite::Engine.routes.draw do
     resources :entries
     resources :configs, only: [:index, :new]
     get :reload, on: :collection
+    post :copy, on: :member
   end
 
   resources :histories, only: [] do

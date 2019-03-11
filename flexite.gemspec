@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'hashie', '~> 3.4', '>= 3.4.6'
   s.add_runtime_dependency 'haml-rails', '~> 0.4.0'
   s.add_runtime_dependency 'hashdiff', '~> 0.3.7'
+  s.add_runtime_dependency 'deep_cloneable', '~> 2.4.0' 
 
   s.add_development_dependency 'haml-rails', '~> 0.4.0'
   s.add_development_dependency 'sqlite3'

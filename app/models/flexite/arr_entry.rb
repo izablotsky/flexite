@@ -1,7 +1,5 @@
 module Flexite
   class ArrEntry < Entry
-    has_many :entries, as: :parent, dependent: :destroy
-
     def value
       entries.select(%i[id value type]).map(&:value)
     end
@@ -24,9 +22,7 @@ module Flexite
 
     def t_node
       node = super.except('value')
-      if entries.any?
-        node['entries'] = entries.map(&:t_node)
-      end
+      node['entries'] = entries&.map(&:t_node)
       node
     end
 
