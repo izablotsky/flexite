@@ -5,7 +5,7 @@ module Flexite
     attr_accessor :locked
 
     attr_accessible :value, :to_delete
-    history_attributes :value, :updated_by
+    history_attributes :value, :value_was, :updated_by, :updated_at
 
     belongs_to :parent, polymorphic: true, touch: true
     has_many :histories, as: :entity, dependent: :destroy

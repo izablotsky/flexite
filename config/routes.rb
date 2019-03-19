@@ -18,6 +18,7 @@ Flexite::Engine.routes.draw do
   resources :histories, only: [] do
     get ':entity_id/:entity_type/show', to: 'histories#index', as: :entity, constraints: { entity_type: /.*/ }, on: :collection
     get :restore
+    get :recent_changes, on: :collection
   end
 
   resource :diff, only: [:show] do

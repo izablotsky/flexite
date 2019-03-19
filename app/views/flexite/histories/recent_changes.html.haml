@@ -1,0 +1,29 @@
+%ul.nav.nav-tabs
+  %li.active= link_to 'Entry Changes History', '#entries_history', data: { toggle: :tab }
+  %li= link_to 'Config Changes History', '#configs_history', data: { toggle: :tab }
+.tab-content
+  .tab-pane.fade.in.active#entries_history
+    %table.table.table-bordered.datatable.display.nowrap{width: "100%"}
+      %thead
+        %th #
+        %th Path
+        %th Current Value
+        %th Previouse Value
+        %th Changed by
+        %th Updated At
+      %tbody#entry_history
+        = render partial: 'entry_history', as: :history, collection: @entries
+  .tab-pane.fade#configs_history
+    %table.table.table-bordered.datatable.display.nowrap{width: "100%"}
+      %thead
+        %th #
+        %th Path
+        %th Name
+        %th Previous Name
+        %th Description
+        %th Previous Description
+        %th Config ID
+        %th Updated By
+        %th Updated At
+      %tbody#config_history
+        = render partial: 'config_history', as: :history, collection: @configs

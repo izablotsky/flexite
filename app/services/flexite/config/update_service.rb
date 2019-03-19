@@ -2,9 +2,7 @@ module Flexite
   class Config
     class UpdateService < ActionService
       def call
-        if @form.invalid?
-          return failure
-        end
+        return failure if @form.invalid?
 
         @record = Config.joins("LEFT JOIN #{Entry.table_name} ON #{Entry.table_name}.parent_id = #{Config.table_name}.id AND #{Entry.table_name}.parent_type = '#{Config.model_name}'")
           .select("#{Config.table_name}.*, #{Entry.table_name}.id AS entry_id")

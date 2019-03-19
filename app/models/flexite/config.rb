@@ -2,8 +2,8 @@ module Flexite
   class Config < ActiveRecord::Base
     include WithHistory
 
-    attr_accessible :name, :selectable, :config_id, :description, :locked, :to_delete
-    history_attributes :name, :config_id, :description
+    attr_accessible :name, :selectable, :config_id, :description, :locked, :to_delete, :updated_by
+    history_attributes :name, :name_was, :config_id, :description, :description_was, :updated_by, :updated_at
 
     delegate :value, to: :entry, allow_nil: true
     belongs_to :config, touch: true

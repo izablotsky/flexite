@@ -3,12 +3,19 @@ module SaveMethods
 
   def save_root(root, configs)
     @result[root] = {}
-    Flexite::Config.create!(name: root) do |record|
-      begin
-        save_hash_value(record, configs)
-      rescue => exc
-        @errors[record] << [exc.message, exc.backtrace]
+    begin
+      Flexite::Config.skip_callback(:save, :after, :save_history)
+      Flexite::Entry.skip_callback(:save, :after, :save_history)
+      Flexite::Config.create!(name: root) do |record|
+        begin
+          save_hash_value(record, configs)
+        rescue => exc
+          @errors[record] << [exc.message, exc.backtrace]
+        end
       end
+    ensure
+      Flexite::Config.set_callback(:save, :after, :save_history)
+      Flexite::Entry.set_callback(:save, :after, :save_history)
     end
   end
 

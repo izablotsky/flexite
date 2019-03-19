@@ -35,7 +35,7 @@ module Flexite
 
       History.transaction do
         history_attributes.each do |attr|
-          history.history_attributes.build(name: attr, value: self[attr])
+          history.history_attributes.build(name: attr, value: send(attr))
         end
 
         history.save

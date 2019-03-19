@@ -63,7 +63,7 @@ module Flexite
     private
 
     def config_params
-      params[:config]
+      params[:config].merge!(updated_by: current_user.user_id)
     end
   end
 end
