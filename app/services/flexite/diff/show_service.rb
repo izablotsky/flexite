@@ -1,14 +1,14 @@
 module Flexite
   class Diff
     class ShowService
-      def initialize(stage, checksum)
-        @stage = stage
-        @checksum = checksum
+      def initialize(stage)
+        @stage   = stage
+        @version = DateTime.now.strftime('%Y%m%d')
+        @data    = {diffs: {}}
       end
 
       def call
-        @data = { stage: @stage, checksum: @checksum }
-        if (diffs = Diff.where(stage: @stage, checksum: @checksum)).present?
+        if (diffs = Diff.where(stage: @stage, version: @version)).present?
           @data[:diffs] = diffs.group_by(&:change_type)
         end
 

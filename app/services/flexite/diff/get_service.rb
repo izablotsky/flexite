@@ -7,18 +7,12 @@ module Flexite
         @stage = stage
         @endpoint = endpoint + api_configs_path(token: Flexite.config.migration_token)
         get_configs
-        @checksum = checksum
       end
 
       def call
-        if no_difference?
-          ActionService::Result.new(flash: { type: :success, message: 'There is no difference btw envs' })
-        elsif Diff.exists?(stage: @stage, checksum: @checksum)
-          Diff::ShowService.new(@stage, @checksum).call
-        else
-          calculate_diff
-          ActionService::Result.new(data: { stage: @stage, checksum: @checksum })
-        end
+        return if Diff.exists?(stage: @stage, version: version)
+
+        calculate_diff
       end
 
       private
@@ -31,14 +25,11 @@ module Flexite
       end
 
       def calculate_diff
-        Delayed::Job.enqueue(ShowDiffJob.new(@other_tree, @current_tree, @stage, @checksum))
-        # CheckService.new(@current_tree, @other_tree, @stage, @checksum).call
+        Delayed::Job.enqueue(ShowDiffJob.new(@other_tree, @current_tree, @stage, version))
       end
 
-      def checksum
-        @other_checksum = Digest::MD5.hexdigest(@other_tree.to_json)
-        @current_checksum = Digest::MD5.hexdigest(@current_tree.to_json)
-        Digest::MD5.hexdigest("#{@other_checksum}#{@current_checksum}")
+      def version
+        @version = DateTime.now.strftime('%Y%m%d')
       end
 
       def no_difference?

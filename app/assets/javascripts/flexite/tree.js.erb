@@ -32,8 +32,7 @@ $flexite(window).on('load', function () {
     });
 
     $flexite("#show-diff").on("click", function () {
-        $flexite('#progress-loader').modal({ backdrop: 'static', keyboard: false });
-        $flexite.get("<%= Flexite::Engine.routes.url_helpers.get_diff_path %>" + "?url=" + $flexite("select[id='stage']").val() + "&stage=" + $flexite("select[id='stage']").text());
+        $flexite.get("<%= Flexite::Engine.routes.url_helpers.diff_path %>" + "?stage=" + $flexite("select[id='stage']").text());
     });
 
     $flexite("#new-node-btn").on("click", function () {

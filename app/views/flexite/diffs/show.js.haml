@@ -1,13 +1,3 @@
+$flexite('#modal-body').html("#{ j render 'flexite/diffs/diffs', diffs: @result.diffs }");
+$flexite("#modal").modal("show");
 
-
-- if flash.present?
-    $flexite("#progress-loader").modal("hide");
-    $flexite('body').removeClass('modal-open');
-    $flexite('.modal-backdrop').remove();
-    = render 'flexite/shared/show_flash', flash: flash
-- elsif @result.respond_to?(:diffs)
-    $flexite('#modal-body').html("#{ j render 'flexite/diffs/diffs', diffs: @result.diffs }");
-    $flexite('#progress-loader').modal('hide');
-    $flexite("#modal").modal("show");
-- else
-    $flexite('#diff-timer').html("#{ j render 'timer', stage: @result.stage, checksum: @result.checksum }");
