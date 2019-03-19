@@ -1,5 +1,7 @@
 module Flexite
   class ArrEntry < Entry
+    delegate :name, to: :parent
+
     def value
       entries.select(%i[id value type]).map(&:value)
     end

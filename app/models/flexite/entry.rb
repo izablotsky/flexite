@@ -1,6 +1,7 @@
 module Flexite
   class Entry < ActiveRecord::Base
     include WithHistory
+    include WithPath
 
     attr_accessor :locked
 
@@ -14,7 +15,7 @@ module Flexite
     scope :order_by_value, -> { order(:value) }
     before_save :check_value, :cast_value
 
-    delegate :locked, to: :parent, allow_nil: true
+    delegate :locked, :name, to: :parent, allow_nil: true
 
     def self.form(attributes = {})
       Form.new(attributes)

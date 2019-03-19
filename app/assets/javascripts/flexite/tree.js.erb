@@ -35,6 +35,10 @@ $flexite(window).on('load', function () {
         $flexite.get("<%= Flexite::Engine.routes.url_helpers.diff_path %>" + "?stage=" + $flexite("select[id='stage']").text());
     });
 
+    $flexite('#recent-changes').on('click', function () {
+        $flexite("#histories-modal").modal("show");
+    });
+
     $flexite("#new-node-btn").on("click", function () {
         var selected = $tree.treeview("getSelected");
 
@@ -78,10 +82,22 @@ function Tree(selector) {
                 searchResultBackColor: '#FFFF00',
                 onNodeSelected: function (event, node) {
                     if (node.ajaxOnSelect) $flexite.get(node.dataHref);
+                    let container = $flexite('.flexite-breadcrumb');
+                    container.html('');
+                    $flexite.each(node.path, function(index, value){
+                        container.append('<li>' + value + '</li>');
+                    })
+                    $flexite('#entry_path').html(container);
                 },
                 onNodeUnselected: function (event, node) {
                     $flexite("#section-2").html("");
                     $flexite("#section-3").html("");
+                },
+                onNodeCollapsed: function (event, node) {
+                    selected_node = $flexite('#tree').treeview('getSelected');
+                    if (selected_node.length) {
+                        $flexite('#tree').treeview('unselectNode', selected_node);
+                    };
                 }
             })
         })

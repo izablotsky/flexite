@@ -1,6 +1,7 @@
 module Flexite
   class Config < ActiveRecord::Base
     include WithHistory
+    include WithPath
 
     attr_accessible :name, :selectable, :config_id, :description, :locked, :to_delete, :updated_by
     history_attributes :name, :name_was, :config_id, :description, :description_was, :updated_by, :updated_at
@@ -31,24 +32,11 @@ module Flexite
         copyHref:     Engine.routes.url_helpers.copy_config_path(self),
         text:         name,
         dataHref:     selectable ? entry_href : configs_href,
+        path:         path,
         nodes:        nodes,
         selectable:   true,
         ajaxOnSelect: selectable
       }
-    end
-
-    def self.tree_view(parent_id)
-      joins("LEFT JOIN #{table_name} AS configs_#{table_name} ON configs_#{table_name}.config_id = #{table_name}.id")
-        .joins("LEFT JOIN #{Entry.table_name} ON #{Entry.table_name}.parent_id = #{table_name}.id AND #{Entry.table_name}.parent_type = '#{model_name}'")
-        .select(["#{table_name}.id",
-                 "#{table_name}.selectable",
-                 "#{table_name}.description",
-                 "#{table_name}.name",
-                 "#{table_name}.updated_at",
-                 "COUNT(configs_#{table_name}.id) AS nodes_count",
-                 "#{Entry.table_name}.id AS entry_id"])
-        .where(config_id: parent_id).group("#{table_name}.id")
-        .order_by_name
     end
 
     def nodes_count
@@ -61,7 +49,7 @@ module Flexite
 
     def nodes
       return if selectable
-      
+
       configs&.map(&:tv_node)
     end
 
