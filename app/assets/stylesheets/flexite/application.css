@@ -54,3 +54,8 @@ li input[type=checkbox] {
     float: left;
     margin: 11px 0 0 -33px;
 }
+
+#entry_path {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

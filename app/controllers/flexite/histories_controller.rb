@@ -12,5 +12,11 @@ module Flexite
       History.includes(:history_attributes).find(params[:history_id]).restore
       flash[:success] = 'Entity was restored from history'
     end
+
+    def recent_changes
+      @histories = History.all.group_by(&:entity_type)
+      @entries   = @histories[Flexite::Entry.model_name]
+      @configs   = @histories[Flexite::Config.model_name]
+    end
   end
 end

@@ -15,6 +15,7 @@ module Flexite
 
     config.action_controller.include_all_helpers = false
     config.paths.add 'app/models/concerns', eager_load: true
+    config.paths.add 'app/services/flexite/data/concerns', eager_load: true
     config.log_path = 'log/flexite.log'
   end
 end

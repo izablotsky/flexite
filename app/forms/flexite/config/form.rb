@@ -2,7 +2,7 @@ require_dependency 'flexite/base_form'
 
 module Flexite
   class Config::Form < BaseForm
-    attr_accessor :id, :name, :config_id, :created_by, :selectable, :description
+    attr_accessor :id, :name, :config_id, :created_by, :selectable, :description, :updated_by
     validates :name, presence: true
 
     def self.model_name

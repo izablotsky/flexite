@@ -1,0 +1,14 @@
+%div{ style: 'position: absolute; z-index: 1; top: 250px; left: 100px; '}
+  .form-group
+    %input.form-control#input-search{placeholder: "Type to search..."}
+    .checkbox
+      = check_box_tag 'chk-ignore-case', '1', false, style: 'margin-left: 0px;'
+      = label_tag 'chk-ignore-case', 'Ignore Case'
+    .checkbox
+      = check_box_tag 'chk-exact-match', '1', false, style: 'margin-left: 0px;'
+      = label_tag 'chk-exact-match', 'Exact Match'
+    .checkbox
+      = check_box_tag  'chk-reveal-results', '1', false, style: 'margin-left: 0px;'
+      = label_tag 'chk-reveal-results', 'Reveal Results'
+    = link_to 'Search', '#', class: 'btn btn-success', id: 'btn-search'
+    = link_to 'Clear', '#', class: 'btn btn-default', id: 'btn-clear-search'

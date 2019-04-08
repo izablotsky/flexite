@@ -5,7 +5,8 @@ module Flexite
     helper ConfigsHelper
 
     def index
-      @configs = Config.tree_view(params[:config_id])
+      @configs = Flexite::Config.roots.all_configs
+
       @cache_key = "#{controller_name}/#{action_name}.#{request.format.symbol}/#{Config.roots.maximum(:updated_at)&.to_s(:number)}/#{params.fetch(:config_id, :root)}"
     end
 
@@ -54,10 +55,15 @@ module Flexite
       render partial: 'flexite/shared/show_flash'
     end
 
+    def copy
+      Flexite::Config::CopyService.new(params[:id]).call
+      render nothing: true
+    end
+
     private
 
     def config_params
-      params[:config]
+      params[:config].merge!(updated_by: current_user.user_id)
     end
   end
 end

@@ -1,0 +1,11 @@
+- present history do |history_presenter|
+  %tr
+    %td= history_counter + 1
+    %td= history_presenter.path
+    %td= history_presenter.name
+    %td= history_presenter.name_was
+    %td= history_presenter.description
+    %td= history_presenter.description_was
+    %td= history_presenter.config_id
+    %td= history_presenter.updated_by
+    %td= history_presenter.updated_at

@@ -1,5 +1,7 @@
 module Flexite
   class History < ActiveRecord::Base
+    default_scope includes(:history_attributes, :entity).order(:created_at)
+
     belongs_to :entity, polymorphic: true
     has_many :history_attributes, dependent: :destroy
 
@@ -15,6 +17,7 @@ module Flexite
 
     def check_limit
       return if entity.histories.count <= Flexite.config.history_limit
+
       entity.histories.order(:id).first.destroy
     end
   end

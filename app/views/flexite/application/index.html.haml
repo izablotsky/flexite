@@ -2,20 +2,28 @@
   = javascript_include_tag 'flexite/application'
   = stylesheet_link_tag 'flexite/application', media: 'all'
   = csrf_meta_tags
-.col-md-12#flash
-  //= render 'flexite/shared/messages'
-  = render 'flexite/shared/progress_loader'
+.container
+  .col-md-12
+    #flash
+
   = render 'flexite/shared/popup'
 .container#tree-buttons
   .row
-    .col-md-6
-      .flex
-        %button#new-node-btn.btn.btn-success New node
-        %button#edit-node-btn.btn.btn-success Edit node
-        %button#delete-node-btn.btn.btn-danger Delete
-        = link_to 'Reload cache', reload_configs_path, remote: true, class: 'btn btn-info'
-        %button#show-diff.btn.btn-warning Show diff
+    .flex
+      .input-group
+        .input-group-btn
+          %button#new-node-btn.btn.btn-success New node
+          %button#edit-node-btn.btn.btn-success Edit node
+          %button#delete-node-btn.btn.btn-danger Delete
+          %button#copy-node-btn.btn.btn-info Copy Node
+          = link_to 'Reload cache', reload_configs_path, remote: true, class: 'btn btn-info'
+          = link_to 'Recent changes', recent_changes_histories_path, class: 'btn btn-warning'
+          %button#show-diff.btn.btn-warning Show diff
         = stage_select
+        // %a.btn.btn-default{href: '#', title: 'HEADER', data: { 'original-title' => 'HEADER', toogle: :popover, placement: :bottom, content: "#{ render 'search_form' }", html: 'true' }} Search
+  .row
+    .col-md-8
+      %ul.breadcrumb.flexite-breadcrumb
 .container#tree-container
   .row
     .col-md-4
@@ -24,5 +32,5 @@
       #section-2
     .col-md-3
       #section-3
-#diff-timer
+= render 'search_form'
 

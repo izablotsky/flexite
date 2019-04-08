@@ -34,10 +34,18 @@ namespace :flexite do
       Flexite::Config.transaction do
         Flexite::Config.delete_all
         Flexite::Entry.delete_all
+        Flexite::History.delete_all
+        Flexite::HistoryAttribute.delete_all
       end
       puts 'Deleted'
     rescue StandardError => exc
       puts 'Smth went wrong...'
+    end
+  end
+
+  task check_diff: :environment do
+    Flexite.config.stages.each do |(stage, endpoint)|
+      Flexite::Diff::GetService.new(stage, endpoint).call
     end
   end
 end
