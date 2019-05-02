@@ -1,13 +1,20 @@
+require_dependency 'flexite/action_service'
+
 module Flexite
-  class Config::CopyService
+  class Config::CopyService < ActionService
     def initialize(id)
       @config = Config.includes(Config.includes_hash, :entry).find(id)
+      @parent_node_id = @config.parent.presence&.id
     end
 
     def call
       copy
       rename
-      save
+      if save
+        Result.new(data: { node: copy, parent_node_id: @parent_node_id }, flash: { type: :success, message: 'Node successfully copied' })
+      else
+        Result.new(success: false, flash: { type: :error, message: 'Node was not copied' } )
+      end
     end
 
     private
