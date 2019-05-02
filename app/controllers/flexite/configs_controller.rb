@@ -56,8 +56,13 @@ module Flexite
     end
 
     def copy
-      Flexite::Config::CopyService.new(params[:id]).call
-      render nothing: true
+      result = Flexite::Config::CopyService.new(params[:id]).call
+      if result.succeed?
+        @node           = result.node
+        @parent_node_id = result.parent_node_id
+      end
+
+      service_flash(result)
     end
 
     private
