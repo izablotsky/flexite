@@ -14,7 +14,11 @@ module Flexite
 
     def restore(history)
       history.history_attributes.each do |attr|
-        self[attr.name] = attr.value
+        if attr.name.end_with?('_was')
+          self[attr.name.gsub('_was', '')] = attr.value
+        else
+          self[attr.name] = attr.value
+        end
       end
 
       self.class.skip_callback(:save, :after, :save_history)
