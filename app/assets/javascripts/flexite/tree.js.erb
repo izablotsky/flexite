@@ -118,6 +118,10 @@ function Tree(selector) {
         tree.treeview(true).addToParent(JSON.parse(jsonNode), parentId);
     }
 
+    this.findNode = function (nodeId) {
+        return tree.treeview(true).findNodeByConfigId(nodeId);
+    }
+
     this.editNode = function(jsonNode) {
         tree.treeview(true).editNode(JSON.parse(jsonNode));
     }
@@ -125,5 +129,9 @@ function Tree(selector) {
     this.setDataHref = function (dataHref) {
         var node = tree.treeview("getSelected")[0];
         node.dataHref = dataHref;
+    }
+
+    this.removeNode = function (node) {
+        tree.treeview(true).removeNode(node);
     }
 }

@@ -147,7 +147,8 @@
 
             // Search methods
             search: $.proxy(this.search, this),
-            clearSearch: $.proxy(this.clearSearch, this)
+            clearSearch: $.proxy(this.clearSearch, this),
+            findNodeByConfigId: $.proxy(this.findNodeByConfigId, this)
         };
     };
 
@@ -759,12 +760,20 @@
         return this.nodes[nodeId];
     };
 
+    Tree.prototype.findNodeByConfigId = function (configId) {
+        var node = this.nodes.find(function (node, index) {
+            return node.id == configId;
+        });
+
+        return node;
+    };
+
     Tree.prototype.addToParent = function(node, parentId) {
         var parent = this.nodes.find(function (node, index) {
             return node.id == parentId;
         });
 
-        if (parent && parent.state.expanded) {
+        if (parent) {
             parent.nodes.push(node);
         } else if(parent && !parent.state.expanded && !parent.nodes) {
             parent.nodes = [];

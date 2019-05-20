@@ -1,4 +1,6 @@
 = render 'flexite/shared/show_flash'
 $flexite("#section-2").html("");
 $flexite("#section-3").html("");
+- if @node.is_a?(Hash)
+  tree.editNode("#{j @node.to_json.html_safe}");
 tree.unselectAll();

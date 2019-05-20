@@ -9,7 +9,7 @@ module Flexite
     end
 
     def restore
-      History.includes(:history_attributes).find(params[:history_id]).restore
+      @node = History.includes(:history_attributes).find(params[:history_id]).restore
       flash[:success] = 'Entity was restored from history'
     end
 

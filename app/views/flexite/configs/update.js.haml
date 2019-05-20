@@ -1,2 +1,8 @@
 = render 'flexite/shared/show_flash'
-tree.editNode("#{j @node.to_json.html_safe}");
+- if @parent_changed
+  var node = tree.findNode("#{ @node[:id] }");
+  tree.removeNode(node);
+  tree.addNode("#{j @node.to_json.html_safe}", "#{@parent_id}");
+- else
+  tree.editNode("#{ j @node.to_json.html_safe }");
+

@@ -28,6 +28,7 @@ module Flexite
       ensure
         self.class.set_callback(:save, :after, :save_history)
       end
+      self.tv_node if self.is_a?(Config)
     end
 
     private

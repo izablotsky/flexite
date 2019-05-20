@@ -38,6 +38,8 @@ module Flexite
 
       if result.succeed?
         @node = result.record.tv_node
+        @parent_id = config_params[:config_id]
+        @parent_changed = result.options[:parent_changed]
       end
 
       service_flash(result)
