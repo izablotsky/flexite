@@ -44,7 +44,7 @@ module Flexite
     def cached_nodes
       return unless Config.table_exists?
 
-      cache.fetch(@@config.root_cache_key) do
+      @@cached_nodes ||= cache.fetch(@@config.root_cache_key) do
         Config.where(config_id: nil).each_with_object(NodesHash.new) do |root, memo|
           memo[root.name] = cache.fetch(root) do
             CachedNode.new(root)
