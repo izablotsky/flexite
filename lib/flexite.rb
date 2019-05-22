@@ -30,6 +30,7 @@ module Flexite
 
     def reload_root_cache
       cache.clear
+      @@cached_nodes = nil
       cached_nodes
     end
 
